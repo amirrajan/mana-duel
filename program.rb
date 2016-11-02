@@ -276,6 +276,47 @@ def print_left_right_status_for_player id, sequence
   puts ""
 end
 
+def spell_descriptions
+  [
+    shield,
+    shock,
+    seppuku,
+    missile,
+    light_wound,
+    heavy_wound,
+    lighting_bolt,
+    fast_lighting_bolt,
+    amnesia,
+    upheaval,
+    paralysis,
+    silence,
+    heal,
+    greater_heal,
+    reflect,
+    counter_spell,
+    ultimate_defense,
+    sokushi
+  ]
+end
+
+def pretty_print_spells_full
+  spell_descriptions.each do |s|
+    puts "=== #{s[:name]}  ==="
+    puts "#{s[:command]}"
+    puts "Countered/Nullified by: #{s[:countered_by]}" if s[:countered_by]
+    puts "#{s[:description]}"
+    puts "\n"
+  end
+end
+
+def pretty_print_spells_short
+  spell_descriptions.each do |s|
+    t = "#{s[:name]}: #{s[:short]}"
+    t = t + " (#{s[:countered_by]})" if s[:countered_by]
+    puts t
+  end
+end
+
 current_turn = :player_1
 turn = { player_1: { }, player_2: { } }
 
@@ -334,37 +375,11 @@ while continue
     puts ""
     puts "================================"
     puts ""
-    [shock,
-     shield,
-     seppuku,
-     missile,
-     light_wound,
-     heavy_wound,
-     lighting_bolt,
-     fast_lighting_bolt,
-     amnesia,
-     upheaval,
-     paralysis,
-     silence,
-     heal,
-     greater_heal,
-     reflect,
-     counter_spell,
-     ultimate_defense,
-     sokushi,
-    ].each { |s|
-      if(text=='fl')
-        puts "=== #{s[:name]}  ==="
-        puts "#{s[:command]}"
-        puts "Countered/Nullified by: #{s[:countered_by]}" if s[:countered_by]
-        puts "#{s[:description]}"
-        puts "\n"
-      else
-        t = "#{s[:name]}: #{s[:short]}"
-        t = t + " (#{s[:countered_by]})" if s[:countered_by]
-        puts t
-      end
-    }
+    if text == 'fl'
+      pretty_print_spells_full
+    else
+      pretty_print_spells_short
+    end
     puts "================================"
     puts ""
   elsif text == 'c!'
