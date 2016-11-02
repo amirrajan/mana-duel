@@ -194,7 +194,7 @@ def silence
     :short => "y, i, g",
     :command => "yellow, indigo, green",
     :description => "Disables the opponents ability to cast blue, green, violet, yellow.",
-    :countered_by => "Reflects, CounterSpell, UltimateDefense"
+    :countered_by => "Reflects, CounterSpell, Ultimate Defense"
   }
 end
 
@@ -209,6 +209,18 @@ def greater_heal
 end
 
 def color_to_hand_sign_map
+  {
+    'r' => :dragon,
+    'o' => :ram,
+    'g' => :snake,
+    'y' => :dog,
+    'b' => :ox,
+    'i' => :rat,
+    'v' => :tiger
+  }
+end
+
+def hand_sign_to_color_map
   {
     dragon: 'red (r)',
     ram: 'orange (o)',
@@ -243,7 +255,7 @@ def class_to_display_name
 end
 
 def pretty_print_spells_by_command k, v
-  puts color_to_hand_sign_map[k]
+  puts hand_sign_to_color_map[k]
 
   v.sort_by { |s| s[:countdown] }.each do |s|
     puts "  #{class_to_display_name[s[:spell]]}, Countdown: #{s[:countdown]}"
@@ -398,7 +410,19 @@ while continue
         if(current_turn == :player_1)
           current_turn = :player_2
         else
-          pp turn
+          converted_turn_a = {
+            left: color_to_hand_sign_map[turn[:player_1][:left]],
+            right: color_to_hand_sign_map[turn[:player_1][:right]],
+          }
+
+          converted_turn_b = {
+            left: color_to_hand_sign_map[turn[:player_2][:left]],
+            right: color_to_hand_sign_map[turn[:player_2][:right]],
+          }
+
+          puts turn
+          result = game.turn(converted_turn_a, converted_turn_b)
+          puts result
           current_turn = :player_1
         end
       end
