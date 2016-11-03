@@ -356,13 +356,13 @@ def pretty_print_spells_short
   end
 end
 
-current_turn = :player_1
-turn = { player_1: { }, player_2: { } }
-me = { player_1: :a, player_2: :b }
-opponent = { player_1: :b, player_2: :a }
+current_turn = :a
+turn = { a: { }, b: { } }
+me = { a: :a, b: :b }
+opponent = { a: :b, b: :a }
 
 while continue
-  if current_turn == :player_1
+  if current_turn == :a
     puts_f 'Player 1, enter one of the commands below:', 'cyan'
   else
     puts_f 'Player 2, enter one of the commands below:', 'cyan'
@@ -370,9 +370,9 @@ while continue
 
   puts_f [
     { command: 'c!', description: 'cast' },
-    { command: 'a',  description: 'status all players' },
+    { command: 'a',  description: 'status all wizards' },
     { command: 't',  description: 'status for opponent (them)' },
-    { command: 'u',  description: 'current player status (us)' },
+    { command: 'u',  description: 'status for me (us)' },
     { command: 'fl', description: 'full list spells' },
     { command: 'l',  description: 'short list spells' },
     { command: 'e!', description: 'exits the game' },
@@ -390,13 +390,13 @@ while continue
     table_a.each do |k, v|
       table_a_b_record = { }
       table_a_b_record['P1, L Spell'] = table_a[i]['P1, L Spell']
-      table_a_b_record['P1, L Time'] = table_a[i]['P1, L Time']
+      table_a_b_record['P1, L Time']  = table_a[i]['P1, L Time']
       table_a_b_record['P1, R Spell'] = table_a[i]['P1, R Spell']
-      table_a_b_record['P1, R Time'] = table_a[i]['P1, R Time']
+      table_a_b_record['P1, R Time']  = table_a[i]['P1, R Time']
       table_a_b_record['P2, L Spell'] = table_b[i]['P2, L Spell']
-      table_a_b_record['P2, L Time'] = table_b[i]['P2, L Time']
+      table_a_b_record['P2, L Time']  = table_b[i]['P2, L Time']
       table_a_b_record['P2, R Spell'] = table_b[i]['P2, R Spell']
-      table_a_b_record['P2, R Time'] = table_b[i]['P2, R Time']
+      table_a_b_record['P2, R Time']  = table_b[i]['P2, R Time']
       table_a_b << table_a_b_record
       i += 1
     end
@@ -416,35 +416,36 @@ while continue
     casted = false
     mana_pool = :left
 
+    pp next_sequence[:a][:left][:by_command]
+
     while !casted
       if(mana_pool == :left)
-        puts_f "What mana do you want to infuse for the LEFT spell? (roygbiv)"
-        pp next_sequence[:a][:left][:by_command]
+        puts_f "What mana do you want to infuse for the LEFT spell? (roygbiv)", 'cyan'
         turn_or_command = STDIN.noecho(&:gets).chomp
         turn[current_turn][:left] = turn_or_command
         mana_pool = :right
       else
-        puts_f "What mana do you want to infuse for the Right spell? (roygbiv)"
+        puts_f "What mana do you want to infuse for the Right spell? (roygbiv)", 'cyan'
         turn_or_command = STDIN.noecho(&:gets).chomp
         turn[current_turn][:right] = turn_or_command
         casted = true
-        if(current_turn == :player_1)
-          current_turn = :player_2
+        if(current_turn == :a)
+          current_turn = :b
         else
           converted_turn_a = {
-            left: color_to_hand_sign_map[turn[:player_1][:left]],
-            right: color_to_hand_sign_map[turn[:player_1][:right]],
+            left: color_to_hand_sign_map[turn[:a][:left]],
+            right: color_to_hand_sign_map[turn[:a][:right]],
           }
 
           converted_turn_b = {
-            left: color_to_hand_sign_map[turn[:player_2][:left]],
-            right: color_to_hand_sign_map[turn[:player_2][:right]],
+            left: color_to_hand_sign_map[turn[:b][:left]],
+            right: color_to_hand_sign_map[turn[:b][:right]],
           }
 
           puts_f turn
           result = game.turn(converted_turn_a, converted_turn_b)
           puts_f result
-          current_turn = :player_1
+          current_turn = :a
         end
       end
     end
