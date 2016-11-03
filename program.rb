@@ -280,19 +280,16 @@ def pretty_print_spells_by_command k, v
   puts_f ""
 end
 
-def pretty_print_mins k, v
-  puts_f "#{}, Countdown: #{v[:countdown]}"
-end
-
 def left_right_table_status_for_player id, sequence
+  number = { a: 'P1', b: 'P2' }
   table = [ ]
 
   sequence[id][:left][:mins]
            .sort_by { |k, v| v[:countdown] }
            .each do |k, v|
     table << {
-      'left spell' => class_to_display_name[k],
-      'left turns til' => v[:countdown]
+      "#{number[id]}, L Spell" => class_to_display_name[k],
+      "#{number[id]}, L Time" => v[:countdown]
     }
   end
 
@@ -300,8 +297,8 @@ def left_right_table_status_for_player id, sequence
   sequence[id][:right][:mins]
            .sort_by { |k, v| v[:countdown] }
            .each do |k, v|
-    table[i]['right spell'] = class_to_display_name[k]
-    table[i]['right turns til'] = v[:countdown]
+    table[i]["#{number[id]}, R Spell"] = class_to_display_name[k]
+    table[i]["#{number[id]}, R Time"] = v[:countdown]
     i += 1
   end
 
@@ -386,14 +383,29 @@ while continue
   next_sequence = game.next_sequence_for_turn[game.current_turn]
 
   if text == 's'
-    print_left_right_status_for_player :a, next_sequence
-    print_left_right_status_for_player :b, next_sequence
+    table_a = left_right_table_status_for_player :a, next_sequence
+    table_b = left_right_table_status_for_player :b, next_sequence
+    i = 0
+    table_a_b = []
+    table_a.each do |k, v|
+      table_a_b_record = { }
+      table_a_b_record['P1, L Spell'] = table_a[i]['P1, L Spell']
+      table_a_b_record['P1, L Time'] = table_a[i]['P1, L Time']
+      table_a_b_record['P1, R Spell'] = table_a[i]['P1, R Spell']
+      table_a_b_record['P1, R Time'] = table_a[i]['P1, R Time']
+      table_a_b_record['P2, L Spell'] = table_b[i]['P2, L Spell']
+      table_a_b_record['P2, L Time'] = table_b[i]['P2, L Time']
+      table_a_b_record['P2, R Spell'] = table_b[i]['P2, R Spell']
+      table_a_b_record['P2, R Time'] = table_b[i]['P2, R Time']
+      table_a_b << table_a_b_record
+      i += 1
+    end
+
+    puts_f table_a_b
   elsif text == 'o'
-    print_left_right_status_for_player opponent[current_turn],
-                                       game.next_sequence_for_turn[game.current_turn]
+    puts_f left_right_table_status_for_player(opponent[current_turn], next_sequence)
   elsif text == 'm'
-    print_left_right_status_for_player me[current_turn],
-                                       game.next_sequence_for_turn[game.current_turn]
+    puts_f left_right_table_status_for_player(me[current_turn], next_sequence)
   elsif text == 'l' || text == 'fl'
     if text == 'fl'
       pretty_print_spells_full
