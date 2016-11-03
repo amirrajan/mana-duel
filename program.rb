@@ -1,3 +1,4 @@
+require 'formatador'
 require_relative 'lib/spell.rb'
 require_relative 'lib/available_commands.rb'
 require_relative 'lib/activated_spells.rb'
@@ -27,6 +28,18 @@ require 'pp'
 
 game = Game.new
 continue = true
+
+def puts_f s, color = nil
+  if s.is_a? Array
+    Formatador.display_table(s)
+  else
+    if color
+      Formatador.display_line("[#{color}]#{s}[/]")
+    else
+      Formatador.display_line(s)
+    end
+  end
+end
 
 def paralysis
   {
@@ -255,35 +268,52 @@ def class_to_display_name
 end
 
 def pretty_print_spells_by_command k, v
-  puts hand_sign_to_color_map[k]
+  puts_f hand_sign_to_color_map[k]
 
-  v.sort_by { |s| s[:countdown] }.each do |s|
-    puts "  #{class_to_display_name[s[:spell]]}, Countdown: #{s[:countdown]}"
+  puts_f v.sort_by { |s| s[:countdown] }.map do |s|
+    {
+      spell: class_to_display_name[s[:spell]],
+      'turns til': s[:countdown]
+    }
   end
 
-  puts ""
+  puts_f ""
 end
 
 def pretty_print_mins k, v
-  puts "#{class_to_display_name[k]}, Countdown: #{v[:countdown]}"
+  puts_f "#{}, Countdown: #{v[:countdown]}"
+end
+
+def left_right_table_status_for_player id, sequence
+  table = [ ]
+
+  sequence[id][:left][:mins]
+           .sort_by { |k, v| v[:countdown] }
+           .each do |k, v|
+    table << {
+      'left spell' => class_to_display_name[k],
+      'left turns til' => v[:countdown]
+    }
+  end
+
+  i = 0
+  sequence[id][:right][:mins]
+           .sort_by { |k, v| v[:countdown] }
+           .each do |k, v|
+    table[i]['right spell'] = class_to_display_name[k]
+    table[i]['right turns til'] = v[:countdown]
+    i += 1
+  end
+
+  table
 end
 
 def print_left_right_status_for_player id, sequence
   number = { a: 1, b: 2 }
 
-  puts "Player #{number[id]} Left:"
+  puts_f "Player #{number[id]}", 'cyan'
 
-  sequence[id][:left][:mins]
-    .sort_by { |k, v| v[:countdown] }
-    .each { |k, v| pretty_print_mins k, v }
-
-  puts ""
-
-  puts "Player #{number[id]} Right:"
-
-  sequence[id][:right][:mins]
-    .sort_by { |k, v| v[:countdown] }
-    .each { |k, v| pretty_print_mins k, v }
+  puts_f left_right_table_status_for_player(id, sequence)
 
   puts ""
 end
@@ -313,11 +343,11 @@ end
 
 def pretty_print_spells_full
   spell_descriptions.each do |s|
-    puts "=== #{s[:name]}  ==="
-    puts "#{s[:command]}"
-    puts "Countered/Nullified by: #{s[:countered_by]}" if s[:countered_by]
-    puts "#{s[:description]}"
-    puts "\n"
+    puts_f "=== #{s[:name]}  ==="
+    puts_f "#{s[:command]}"
+    puts_f "Countered/Nullified by: #{s[:countered_by]}" if s[:countered_by]
+    puts_f "#{s[:description]}"
+    puts_f "\n"
   end
 end
 
@@ -325,86 +355,62 @@ def pretty_print_spells_short
   spell_descriptions.each do |s|
     t = "#{s[:name]}: #{s[:short]}"
     t = t + " (#{s[:countered_by]})" if s[:countered_by]
-    puts t
+    puts_f t
   end
 end
 
 current_turn = :player_1
 turn = { player_1: { }, player_2: { } }
+me = { player_1: :a, player_2: :b }
+opponent = { player_1: :b, player_2: :a }
 
 while continue
   if current_turn == :player_1
-    puts 'Player 1, enter one of the commands below:'
+    puts_f 'Player 1, enter one of the commands below:', 'cyan'
   else
-    puts 'Player 2, enter one of the commands below:'
+    puts_f 'Player 2, enter one of the commands below:', 'cyan'
   end
 
-  puts 'c! (cast)'
-  puts 's (status all players)'
-  puts 'o (status for opponent)'
-  puts 'm (current player status)'
-  puts 'fl (full list spells)'
-  puts 'l (short list spells)'
-  puts 'exit (exits the game)'
+  puts_f [
+    { command: 'c!', description: 'cast' },
+    { command: 's',  description: 'status all players' },
+    { command: 'o',  description: 'status for opponent' },
+    { command: 'm',  description: 'current player status' },
+    { command: 'fl', description: 'full list spells' },
+    { command: 'l',  description: 'short list spells' },
+    { command: 'e!', description: 'exits the game' },
+  ]
 
   text = STDIN.noecho(&:gets).chomp
 
   next_sequence = game.next_sequence_for_turn[game.current_turn]
 
   if text == 's'
-    puts ""
-    puts "================================"
-    puts ""
     print_left_right_status_for_player :a, next_sequence
     print_left_right_status_for_player :b, next_sequence
-    puts "================================"
-    puts ""
   elsif text == 'o'
-    puts ""
-    puts "================================"
-    puts ""
-    next_sequence = game.next_sequence_for_turn[game.current_turn]
-    if(current_turn == :player_1)
-      print_left_right_status_for_player :b, next_sequence
-    else
-      print_left_right_status_for_player :a, next_sequence
-    end
-    puts "================================"
-    puts ""
+    print_left_right_status_for_player opponent[current_turn],
+                                       game.next_sequence_for_turn[game.current_turn]
   elsif text == 'm'
-    puts ""
-    puts "================================"
-    puts ""
-    next_sequence = game.next_sequence_for_turn[game.current_turn]
-    if(current_turn == :player_1)
-      print_left_right_status_for_player :a, next_sequence
-    else
-      print_left_right_status_for_player :b, next_sequence
-    end
-    puts "================================"
-    puts ""
+    print_left_right_status_for_player me[current_turn],
+                                       game.next_sequence_for_turn[game.current_turn]
   elsif text == 'l' || text == 'fl'
-    puts ""
-    puts "================================"
-    puts ""
     if text == 'fl'
       pretty_print_spells_full
     else
       pretty_print_spells_short
     end
-    puts "================================"
-    puts ""
   elsif text == 'c!'
     casted = false
     mana_pool = :left
 
     while !casted
       if(mana_pool == :left)
-        puts "What mana do you want to infuse for the LEFT spell? (roygbiv)"
+        puts_f "What mana do you want to infuse for the LEFT spell? (roygbiv)"
         turn[current_turn][:left] = STDIN.noecho(&:gets).chomp
         mana_pool = :right
       else
-        puts "What mana do you want to infuse for the Right spell? (roygbiv)"
+        puts_f "What mana do you want to infuse for the Right spell? (roygbiv)"
         turn[current_turn][:right] = STDIN.noecho(&:gets).chomp
         casted = true
         if(current_turn == :player_1)
@@ -420,9 +426,9 @@ while continue
             right: color_to_hand_sign_map[turn[:player_2][:right]],
           }
 
-          puts turn
+          puts_f turn
           result = game.turn(converted_turn_a, converted_turn_b)
-          puts result
+          puts_f result
           current_turn = :player_1
         end
       end
