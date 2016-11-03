@@ -4,11 +4,11 @@ class CounterSpell < Spell
   end
 
   def sequence
-    [:rat, :dragon, :dragon]
+    [:indigo, :red, :red]
   end
 
   def alternate_sequence
-    [:rat, :rat, :snake]
+    [:indigo, :indigo, :green]
   end
 
   def alternate_sequence?

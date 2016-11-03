@@ -1,37 +1,37 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
 C = Blood Seal
-(stab) = Ram
+(stab) = orange
 nothing () = Wait
 =end
 
 =begin
 S, W, D
-snake, rat, dog
+green, indigo, yellow
 C, D, F or S
 
-ox, dog, tiger, snake
+blue, yellow, violet, green
 
 doesn't disable
-dragon, rat, ram, wait
+red, indigo, orange, wait
 =end
 
-describe 'Silence: snake, rat, dragon' do
+describe 'Silence: green, indigo, red' do
   let(:game) { Game.new }
 
-  it 'restricts the use of ox, dog, tiger, and snake' do
+  it 'restricts the use of blue, yellow, violet, and green' do
     sync({ left: Silence.new.sequence },
          {})
 
     summary[:a][:left][:spell][:name].should eq 'Silence'
-    summary[:b][:left][:restrictions][:commands].should eq [:dragon, :rat, :ram, :wait]
-    summary[:b][:right][:restrictions][:commands].should eq [:dragon, :rat, :ram, :wait]
+    summary[:b][:left][:restrictions][:commands].should eq [:red, :indigo, :orange, :wait]
+    summary[:b][:right][:restrictions][:commands].should eq [:red, :indigo, :orange, :wait]
 
     game.enchantment_status[:b][:left].should eq Silence
   end
@@ -40,7 +40,7 @@ describe 'Silence: snake, rat, dragon' do
     sync({ left: Silence.new.sequence },
          {})
 
-    game.turn({ left: :dragon }, { left: :dog, right: :dog })
+    game.turn({ left: :red }, { left: :yellow, right: :yellow })
     summary[:b][:left][:command].should eq :wait
   end
 
@@ -51,8 +51,8 @@ describe 'Silence: snake, rat, dragon' do
 
     summary[:a][:left][:spell][:name].should eq 'Silence'
     summary[:a][:left][:spell][:nullified].should eq true
-    summary[:a][:left][:restrictions][:commands].should eq [:dragon, :rat, :ram, :wait]
-    summary[:a][:right][:restrictions][:commands].should eq [:dragon, :rat, :ram, :wait]
+    summary[:a][:left][:restrictions][:commands].should eq [:red, :indigo, :orange, :wait]
+    summary[:a][:right][:restrictions][:commands].should eq [:red, :indigo, :orange, :wait]
   end
 
   it 'can be countered' do
@@ -73,7 +73,7 @@ describe 'Silence: snake, rat, dragon' do
 
     summary[:a][:left][:spell][:name].should eq 'Silence'
     summary[:a][:left][:spell][:nullified].should eq false
-    summary[:b][:left][:restrictions][:commands].should eq [:dragon, :rat, :ram, :wait]
-    summary[:b][:right][:restrictions][:commands].should eq [:dragon, :rat, :ram, :wait]
+    summary[:b][:left][:restrictions][:commands].should eq [:red, :indigo, :orange, :wait]
+    summary[:b][:right][:restrictions][:commands].should eq [:red, :indigo, :orange, :wait]
   end
 end

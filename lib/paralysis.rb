@@ -4,6 +4,6 @@ class Paralysis < Spell
   end
 
   def sequence
-    [:tiger, :tiger, :tiger]
+    [:violet, :violet, :violet]
   end
 end

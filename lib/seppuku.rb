@@ -8,7 +8,7 @@ class Seppuku < Spell
   end
 
   def match? team
-    (team[:primary].last == :ram && team[:assist].last == :ram) ||
-      (team[:primary].last == :dragon && team[:assist].last == :dragon)
+    (team[:primary].last == :orange && team[:assist].last == :orange) ||
+      (team[:primary].last == :red && team[:assist].last == :red)
   end
 end

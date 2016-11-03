@@ -4,6 +4,6 @@ class UltimateDefense < Spell
   end
 
   def sequence
-    [:ox, :dog, :dragon, :rat]
+    [:blue, :yellow, :red, :indigo]
   end
 end

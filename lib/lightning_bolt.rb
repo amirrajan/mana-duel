@@ -4,7 +4,7 @@ class LightningBolt < Spell
   end
 
   def sequence
-    [:dog, :tiger, :tiger, :dog, :dog]
+    [:yellow, :violet, :violet, :yellow, :yellow]
   end
 
   def damage

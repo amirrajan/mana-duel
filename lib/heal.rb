@@ -4,7 +4,7 @@ class Heal < Spell
   end
 
   def sequence
-    [:dog, :tiger, :rat]
+    [:yellow, :violet, :indigo]
   end
 
   def damage

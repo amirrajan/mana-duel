@@ -1,17 +1,17 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
 C = Blood Seal
 (stab) = Kunai
 nothing () = Wait
 =end
 
-describe 'Heavy Wounds (rat, dragon, tiger, dog): ' do
+describe 'Heavy Wounds (indigo, red, violet, yellow): ' do
   let(:game) { Game.new }
 
   it 'causes three points of damage' do

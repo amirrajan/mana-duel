@@ -4,7 +4,7 @@ class LightWounds < Spell
   end
 
   def sequence
-    [:rat, :tiger, :dragon]
+    [:indigo, :violet, :red]
   end
 
   def damage

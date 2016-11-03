@@ -4,6 +4,6 @@ class Upheaval < Spell
   end
 
   def sequence
-    [:snake, :dragon, :tiger]
+    [:green, :red, :violet]
   end
 end

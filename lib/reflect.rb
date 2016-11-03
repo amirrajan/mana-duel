@@ -4,11 +4,11 @@ class Reflect < Spell
   end
 
   def sequence
-    [:ox, :rat]
+    [:blue, :indigo]
   end
 
   def assist_sequence
-    [:ox, :rat]
+    [:blue, :indigo]
   end
 
   def assist_sequence?
@@ -20,6 +20,6 @@ class Reflect < Spell
   end
 
   def match? team
-    super && team[:assist].last == :rat && team[:assist][-2] == :ox
+    super && team[:assist].last == :indigo && team[:assist][-2] == :blue
   end
 end

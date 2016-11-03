@@ -1,11 +1,11 @@
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
-C = [Ox, Ox]
-(stab) = Ram
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
+C = [blue, blue]
+(stab) = orange
 nothing () = Wait
 =end
 
@@ -15,8 +15,8 @@ class Sokushi < Spell
   end
 
   def sequence
-    [:dragon, :rat, :dragon, :tiger,
-     :snake, :snake, :snake, :dog]
+    [:red, :indigo, :red, :violet,
+     :green, :green, :green, :yellow]
   end
 
   def damage

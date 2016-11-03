@@ -1,65 +1,65 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
-C = [Ox, Ox]
-(stab) = Ram
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
+C = [blue, blue]
+(stab) = orange
 nothing () = Wait
 =end
 
-describe 'Upheaval: :snake, dragon, tiger' do
+describe 'Upheaval: :green, red, violet' do
   let(:game) { Game.new }
 
   specify 'forces team to restart all spells' do
-    game.turn({ left: :dog }, {})
-    game.turn({ left: :tiger }, { left: :snake })
-    game.turn({ left: :tiger }, { left: :dragon })
-    game.turn({ left: :dog }, { left: :tiger })
+    game.turn({ left: :yellow }, {})
+    game.turn({ left: :violet }, { left: :green })
+    game.turn({ left: :violet }, { left: :red })
+    game.turn({ left: :yellow }, { left: :violet })
 
-    summary[:a][:left][:command].should eq :dog
+    summary[:a][:left][:command].should eq :yellow
     summary[:b][:left][:spell][:name].should eq 'Upheaval'
-    next_sequence[:a][:left][:by_spell][LightningBolt][:command].should eq :dog
+    next_sequence[:a][:left][:by_spell][LightningBolt][:command].should eq :yellow
     next_sequence[:a][:left][:by_spell][LightningBolt][:countdown].should eq 5
   end
 
   specify 'it cannot be shielded' do
-    game.turn({}, { left: :snake })
-    game.turn({}, { left: :dragon })
-    game.turn({ left: :dragon }, { left: :tiger })
+    game.turn({}, { left: :green })
+    game.turn({}, { left: :red })
+    game.turn({ left: :red }, { left: :violet })
 
     summary[:b][:left][:spell][:name].should eq 'Upheaval'
     summary[:b][:left][:spell][:nullified].should eq false
   end
 
   specify 'it can be counter spelled' do
-    game.turn({ left: :dog }, {})
-    game.turn({ left: :tiger, right: :rat }, { left: :snake })
-    game.turn({ left: :tiger, right: :dragon }, { left: :dragon })
-    game.turn({ left: :dog, right: :dragon }, { left: :tiger })
+    game.turn({ left: :yellow }, {})
+    game.turn({ left: :violet, right: :indigo }, { left: :green })
+    game.turn({ left: :violet, right: :red }, { left: :red })
+    game.turn({ left: :yellow, right: :red }, { left: :violet })
 
-    next_sequence[:a][:left][:by_spell][LightningBolt][:command].should eq :dog
+    next_sequence[:a][:left][:by_spell][LightningBolt][:command].should eq :yellow
     next_sequence[:a][:left][:by_spell][LightningBolt][:countdown].should eq 1
   end
 
   specify 'it can be reflected' do
     game.turn({},
-              { left: :snake,  right: :dog })
+              { left: :green,  right: :yellow })
 
-    game.turn({ left: :ox,     right: :ox },
-              { left: :dragon, right: :dog })
+    game.turn({ left: :blue,     right: :blue },
+              { left: :red, right: :yellow })
 
-    game.turn({ left: :rat,    right: :rat },
-              { left: :tiger,  right: :tiger })
+    game.turn({ left: :indigo,    right: :indigo },
+              { left: :violet,  right: :violet })
 
     summary[:a][:left][:spell][:name].should eq 'Reflect'
     summary[:b][:left][:spell][:name].should eq 'Upheaval'
     summary[:b][:left][:spell][:nullified].should eq true
 
-    next_sequence[:b][:right][:by_spell][LightningBolt][:command].should eq :dog
+    next_sequence[:b][:right][:by_spell][LightningBolt][:command].should eq :yellow
     next_sequence[:b][:right][:by_spell][LightningBolt][:countdown].should eq 5
   end
 

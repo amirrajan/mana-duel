@@ -1,17 +1,17 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
-C = [Ox, Ox]
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
+C = [blue, blue]
 (stab) = Kunai
 nothing () = Wait
 =end
 
-describe 'UltimateDefense: [:ox, :ox], :dog, :dragon, :rat' do
+describe 'UltimateDefense: [:blue, :blue], :yellow, :red, :indigo' do
   let(:game) { Game.new }
 
   it 'prevents damage from spells' do

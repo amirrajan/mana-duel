@@ -4,7 +4,7 @@ class GreaterHeal < Spell
   end
 
   def sequence
-    [:dog, :tiger, :dragon, :rat]
+    [:yellow, :violet, :red, :indigo]
   end
 
   def damage

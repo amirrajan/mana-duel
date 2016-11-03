@@ -1,13 +1,13 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
-C = [Ox, Ox]
-(stab) = Ram
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
+C = [blue, blue]
+(stab) = orange
 nothing () = Wait
 =end
 
@@ -15,11 +15,11 @@ describe 'available commands' do
   it 'gives unique commands for spells' do
     AvailableCommands.new.for([Wait.new]).should eq []
 
-    AvailableCommands.new.for([Shock.new]).should eq [:ram]
+    AvailableCommands.new.for([Shock.new]).should eq [:orange]
 
-    AvailableCommands.new.for([CounterSpell.new]).should eq [:rat,
-                                                             :dragon,
-                                                             :snake]
+    AvailableCommands.new.for([CounterSpell.new]).should eq [:indigo,
+                                                             :red,
+                                                             :green]
   end
 
   specify 'game provides command list' do
@@ -27,6 +27,6 @@ describe 'available commands' do
                Missile.new,
                Shock.new,
                Wait.new
-             ]).available_commands.should eq [:ram, :snake, :dog]
+             ]).available_commands.should eq [:orange, :green, :yellow]
   end
 end

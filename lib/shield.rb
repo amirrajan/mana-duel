@@ -4,6 +4,6 @@ class Shield < Spell
   end
 
   def sequence
-    [:dragon]
+    [:red]
   end
 end

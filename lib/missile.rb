@@ -4,7 +4,7 @@ class Missile < Spell
   end
 
   def sequence
-    [:snake, :dog]
+    [:green, :yellow]
   end
 
   def damage

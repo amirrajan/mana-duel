@@ -1,17 +1,17 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
 C = Blood Seal
-(stab) = Ram
+(stab) = orange
 nothing () = Wait
 =end
 
-describe 'Light Wounds (rat, tiger, dragon): ' do
+describe 'Light Wounds (indigo, violet, red): ' do
   let(:game) { Game.new }
 
   it 'causes two points of damage' do

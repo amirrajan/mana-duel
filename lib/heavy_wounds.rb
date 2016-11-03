@@ -4,7 +4,7 @@ class HeavyWounds < Spell
   end
 
   def sequence
-    [:rat, :dragon, :tiger, :dog]
+    [:indigo, :red, :violet, :yellow]
   end
 
   def damage

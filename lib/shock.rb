@@ -4,7 +4,7 @@ class Shock < Spell
   end
 
   def sequence
-    [:ram]
+    [:orange]
   end
 
   def damage

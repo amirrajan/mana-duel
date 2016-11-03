@@ -4,11 +4,11 @@ class FastLightningBolt < Spell
   end
 
   def sequence
-    [:rat, :dog, :dog, :ox]
+    [:indigo, :yellow, :yellow, :blue]
   end
 
   def assist_sequence
-    [:ox]
+    [:blue]
   end
 
   def damage
@@ -16,6 +16,6 @@ class FastLightningBolt < Spell
   end
 
   def match? team
-    super && team[:assist].last == :ox
+    super && team[:assist].last == :blue
   end
 end

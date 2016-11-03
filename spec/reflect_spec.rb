@@ -1,17 +1,17 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
 C = Blood Seal
 (stab) = Kunai
 nothing () = Wait
 =end
 
-describe 'Reflect: [:ox, :ox], [:rat, :rat]' do
+describe 'Reflect: [:blue, :blue], [:indigo, :indigo]' do
   let(:game) { Game.new }
 
   it 'returns damage given by spells, :b reflects' do

@@ -1,17 +1,17 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
 C = Blood Seal
 (stab) = Kunai
 nothing () = Wait
 =end
 
-describe 'Sokushi: dragon, rat, dragon, tiger, snake, snake, snake, dog' do
+describe 'Sokushi: red, indigo, red, violet, green, green, green, yellow' do
   let(:game) { Game.new }
 
   def summary

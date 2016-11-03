@@ -1,9 +1,9 @@
 class Silence < Spell
   def sequence
-    [:snake, :rat, :dog]
+    [:green, :indigo, :yellow]
   end
 
   def self.disables
-    [:ox, :dog, :tiger, :snake]
+    [:blue, :yellow, :violet, :green]
   end
 end

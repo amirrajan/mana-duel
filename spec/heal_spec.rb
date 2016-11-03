@@ -1,22 +1,22 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
 C = Blood Seal
-(stab) = Ram
+(stab) = orange
 nothing () = Wait
 =end
 
-describe 'Heal (dog, tiger, rat): ' do
+describe 'Heal (yellow, violet, indigo): ' do
   let(:game) { Game.new }
 
   it 'heals one damage' do
-    game.turn({ left: :ram },
-              { right: :ram })
+    game.turn({ left: :orange },
+              { right: :orange })
 
     game.damage_for(:a).should eq 1
     game.damage_for(:b).should eq 1
@@ -37,8 +37,8 @@ describe 'Heal (dog, tiger, rat): ' do
   end
 
   it 'is unaffected by shield (generally, defensive spells cant be nullified)' do
-    game.turn({ left: :ram },
-              { right: :ram })
+    game.turn({ left: :orange },
+              { right: :orange })
 
     game.damage_for(:a).should eq 1
     game.damage_for(:b).should eq 1

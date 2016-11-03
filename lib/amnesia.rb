@@ -4,6 +4,6 @@ class Amnesia < Spell
   end
 
   def sequence
-    [:dog, :dragon, :dragon]
+    [:yellow, :red, :red]
   end
 end

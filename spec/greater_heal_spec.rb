@@ -1,24 +1,24 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
 C = Blood Seal
-(stab) = Ram
+(stab) = orange
 nothing () = Wait
 =end
 
-describe 'Greater Heal (dog, tiger, dragon, rat): ' do
+describe 'Greater Heal (yellow, violet, red, indigo): ' do
   let(:game) { Game.new }
 
   it 'heals two damage' do
-    game.turn({ left: :ram },
-              { right: :ram })
-    game.turn({ left: :ram },
-              { right: :ram })
+    game.turn({ left: :orange },
+              { right: :orange })
+    game.turn({ left: :orange },
+              { right: :orange })
 
     game.damage_for(:a).should eq 2
     game.damage_for(:b).should eq 2

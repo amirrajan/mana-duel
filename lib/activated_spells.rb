@@ -159,7 +159,7 @@ class ActivatedSpells < Array
 
     [:left, :right].each do |target|
       summary[target_team][target][:restrictions] = {
-        commands: [:dragon, :rat, :ram, :wait],
+        commands: [:red, :indigo, :orange, :wait],
         because_of: 'Silence'
       }
     end
@@ -215,9 +215,9 @@ class ActivatedSpells < Array
 
     restriction = [command_history[target_team][target_unit].last]
 
-    restriction = [:tiger] if restriction == [:ox]
-    restriction = [:dog] if restriction == [:snake]
-    restriction = [:dragon] if restriction == [:rat]
+    restriction = [:violet] if restriction == [:blue]
+    restriction = [:yellow] if restriction == [:green]
+    restriction = [:red] if restriction == [:indigo]
 
     summary[target_team][target_unit][:restrictions] = {
       commands: restriction,

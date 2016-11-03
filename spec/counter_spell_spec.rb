@@ -1,20 +1,20 @@
 require './spec/spec_helper.rb'
 
 =begin
-F = Tiger
-P = Dragon
-S = Snake
-W = Rat
-D = Dog
-C = [Ox, Ox]
-(stab) = Ram
+F = violet
+P = red
+S = green
+W = indigo
+D = yellow
+C = [blue, blue]
+(stab) = orange
 nothing () = Wait
 =end
 
-describe 'CounterSpell: :rat, :dragon, :dragon, or :rat, :rat, :snake' do
+describe 'CounterSpell: :indigo, :red, :red, or :indigo, :indigo, :green' do
   let(:game) { Game.new }
 
-  it 'cancels damage from spell (variation rat, dragon, dragon)' do
+  it 'cancels damage from spell (variation indigo, red, red)' do
     sync({ left: LightningBolt.new.sequence },
          { left: CounterSpell.new.sequence })
 
@@ -28,7 +28,7 @@ describe 'CounterSpell: :rat, :dragon, :dragon, or :rat, :rat, :snake' do
     game.damage_for(:b).should be 0
   end
 
-  it 'cancels damage from spell (variation rat, rat, snake)' do
+  it 'cancels damage from spell (variation indigo, indigo, green)' do
     sync({ left: LightningBolt.new.sequence },
          { left: CounterSpell.new.alternate_sequence })
 

@@ -46,206 +46,206 @@ def puts_t table, order = nil
 end
 
 def paralysis
-  {
+{
     :name => "Paralysis",
     :short => "v (3x)",
     :command => "violet, violet, violet",
-    :description => "Forces one wizard to repeat the hand sign he performed last turn. The target depends on which mana pool executes the spell (left targets left, right targets right). Paralysis can only affect one mana pool at a time. Some hand signs will be changed to another to prevent complete impairment (blue changes to violet, yellow to green, and indigo to red).",
-    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
-  }
+    :description => "Forces one mana pool to repeat the color infused last turn. The target depends on which mana pool casted the spell (left mana pool targets left, right mana pool targets right). Paralysis can only affect one mana pool at a time. Some colors will be changed to another to prevent complete impairment (blue changes to violet, green to yellow, and indigo to red).",
+    :countered_by => "Counter Spell, Reflect, Ultimate Defense"
+}
 end
 
 def shield
-  {
+{
     :name => "Shield",
     :short => "r",
     :command => "red",
-    :description => "Stops shock and missle damage from opponent's wizard for one turn.",
+    :description => "Stops shock and missle damage from opponent wizard for one turn.",
     :countered_by => nil
-  }
+}
 end
 
 def shock
-  {
+{
     :name => "Shock",
     :short => "o",
     :command => "orange",
     :description => "Does one point of damage.",
     :countered_by => "Shield, Ultimate Defense"
-  }
+}
 end
 
 def missile
-  {
+{
     :name => "Missile",
-    :short => "y, g",
-    :command => "yellow, green",
+    :short => "g, y",
+    :command => "green, yellow",
     :description => "Does one point of damage.",
-    :countered_by => "Shield, Reflect, Counter Spell, Ultimate Defense"
-  }
+    :countered_by => "Shield, Reflect, CounterSpell, UltimateDefense"
+}
 end
 
 def light_wound
-  {
-    :name => "Light Wounds",
+{
+    :name => "LightWounds",
     :short => "i, v, r",
-    :command => "indigo, violet, red (this spell will take three turns to execute, a wizard needs to execute indigo, then violet, then red)",
+    :command => "indigo, violet, red",
     :description => "Does two points of damage.",
     :countered_by => "Reflect, Counter Spell, Ultimate Defense"
-  }
+}
 end
 
 def heavy_wound
-  {
-    :name => "Heavy Wounds",
-    :short => "i, r, v, g",
-    :command => "indigo, red, violet, green (this spell will take four turns to execute, a wizard needs to execute indigo, then red, then violet, then green)",
+{
+    :name => "HeavyWounds",
+    :short => "indigo, red, violet, yellow",
+    :command => "indigo, red, violet, yellow (this jutsu will take four turns to execute, a ninja needs to execute indigo, then red, then violet, then yellow)",
     :description => "Does three points of damage.",
-    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
-  }
+    :countered_by => "Reflect, CounterSpell, UltimateDefense"
+}
 end
 
 def lighting_bolt
-  {
-    :name => "Lightning Bolt",
-    :short => "g, v, v, g, g",
-    :command => "green, violet, violet, green, green (the last command doubles up as the first command if executed one after another)",
+{
+    :name => "LightningBolt",
+    :short => "yellow, violet, violet, yellow, yellow",
+    :command => "yellow, violet, violet, yellow, yellow (the last command doubles up as the first command if executed one after another)",
     :description => "Does five points of damage.",
-    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
-  }
+    :countered_by => "Reflect, CounterSpell, UltimateDefense"
+}
 end
 
 def fast_lighting_bolt
-  {
-    :name => "Fast Lightning Bolt",
-    :short => "i, g, g, [b, b] (once per game)",
-    :command => "indigo, green, green, [blue, blue] (both mana pools of the wizard must cast the last color for spell to execute)",
-    :description => "Does five points of damage. This spell can only be used once per match by each wizard.",
-    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
-  }
+{
+    :name => "FastLightningBolt",
+    :short => "indigo, yellow, yellow, [blue, blue] (once per game)",
+    :command => "indigo, yellow, yellow, [blue, blue] (both ninjas must cast the last sign for jutsu the to execute)",
+    :description => "Does five points of damage. This jutsu can only be used once per match by each team.",
+    :countered_by => "Reflect, CounterSpell, UltimateDefense"
+}
 end
 
 def seppuku
-  {
+{
     :name => "Seppuku",
-    :short => "[o, o] or [r, r] (instant forfeit)",
-    :command => "[orange, orange] or [red, red] (if both mana pools on the wizard cast either orange or red, it's instant death for that wizard)",
-    :description => "Curse does 30 points of damage to the wizard that casts the spell. Instant death.",
+    :short => "[orange, orange] or [red, red] (instant forfeit)",
+    :command => "[orange, orange] or [red, red] (if both ninjas on the team cast either orange or red, it's instant death for that team)",
+    :description => "Curse does 30 points of damage to the team that casts the jutsu. Instant death.",
     :countered_by => nil
-  }
+}
 end
 
 def reflect
-  {
+{
     :name => "Reflect",
-    :short => "[b, b], [i, i]",
-    :command => "[blue, blue], [indigo, indigo] (both mana pools must issue both commands in unison)",
-    :description => "Reflects spell back at opponent. Will not reflect Shock however.",
+    :short => "[blue, blue], [indigo, indigo]",
+    :command => "[blue, blue], [indigo, indigo] (both ninjas must issue both commands in unison)",
+    :description => "Reflects jutsu back at opponent. Will not reflect Shock however.",
     :countered_by => nil
-  }
+}
 end
 
 def counter_spell
-  {
-    :name => "Counter Spell",
-    :short => "i, r, r or i, i, y",
-    :command => "indigo, red, red or indigo, indigo, yellow",
-    :description => "Nullifies all attack spell except Shock or Sokushi.",
+{
+    :name => "CounterSpell",
+    :short => "indigo, red, red or indigo, indigo, green",
+    :command => "indigo, red, red or indigo, indigo, green",
+    :description => "Nullifies all attack jutsu except Shock or Sokushi.",
     :countered_by => nil
-  }
+}
 end
 
 def ultimate_defense
-  {
-    :name => "Ultimate Defense",
-    :short => "[b, b], g, r, i",
-    :command => "[blue, blue], green, red, indigo",
-    :description => "Nullifies all attack spell.",
+{
+    :name => "UltimateDefense",
+    :short => "[blue, blue], yellow, red, indigo",
+    :command => "[blue, blue], yellow, red, indigo",
+    :description => "Nullifies all attack jutsu.",
     :countered_by => nil
-  }
+}
 end
 
 def sokushi
-  {
+{
     :name => "Sokushi",
-    :short => "r, i, r, v, y (3x), g",
-    :command => "red, indigo, red, violet, yellow, yellow, yellow, green",
+    :short => "red, indigo, red, violet, green (3x), yellow",
+    :command => "red, indigo, red, violet, green, green, green, yellow",
     :description => "Does 100 points of damage.",
-    :countered_by => "Ultimate Defense"
-  }
+    :countered_by => "UltimateDefense"
+}
 end
 
 def heal
-  {
+{
     :name => "Heal",
-    :short => "g, v, i",
-    :command => "green, violet, indigo",
+    :short => "yellow, violet, indigo",
+    :command => "yellow, violet, indigo",
     :description => "Removes one point of damage.",
     :countered_by => nil
-  }
+}
 end
 
 def amnesia
-  {
+{
     :name => "Amnesia",
-    :short => "g, r, r",
-    :command => "green, red, red",
+    :short => "yellow, red, red",
+    :command => "yellow, red, red",
     :description => "When Amnesia is cast, opponent will be forced to repeat the same signs he performed before.",
-    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
-  }
+    :countered_by => "Reflects, CounterSpell, UltimateDefense"
+}
 end
 
 def upheaval
-  {
+{
     :name => "Upheaval",
-    :short => "y, r, v",
-    :command => "yellow, red, violet",
+    :short => "green, red, violet",
+    :command => "green, red, violet",
     :description => "When Upheaval is cast, opponent will have all of his sequences reset.",
-    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
-  }
+    :countered_by => "Reflects, CounterSpell, UltimateDefense"
+}
 end
 
 def silence
-  {
+{
     :name => "Silence",
-    :short => "y, i, g",
-    :command => "yellow, indigo, green",
-    :description => "Disables the opponents ability to cast blue, green, violet, yellow.",
-    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
-  }
+    :short => "green, indigo, yellow",
+    :command => "green, indigo, yellow",
+    :description => "Disables the opponents ability to cast blue, yellow, violet, green.",
+    :countered_by => "Reflects, CounterSpell, UltimateDefense"
+}
 end
 
 def greater_heal
-  {
-    :name => "Greater Heal",
-    :short => "g, v, r, i",
-    :command => "green, violet, red, indigo",
+{
+    :name => "GreaterHeal",
+    :short => "yellow, violet, red, indigo",
+    :command => "yellow, violet, red, indigo",
     :description => "Removes two points of damage.",
     :countered_by => nil
-  }
+}
 end
 
 def color_to_hand_sign_map
   {
-    'r' => :dragon,
-    'o' => :ram,
-    'y' => :dog,
-    'g' => :snake,
-    'b' => :ox,
-    'i' => :rat,
-    'v' => :tiger
+    'r' => :red,
+    'o' => :orange,
+    'y' => :yellow,
+    'g' => :green,
+    'b' => :blue,
+    'i' => :indigo,
+    'v' => :violet
   }
 end
 
 def hand_sign_to_color_map
   {
-    dragon: 'red (r)',
-    ram: 'orange (o)',
-    dog: 'yellow (y)',
-    snake: 'green (g)',
-    ox: 'blue (b)',
-    rat: 'indigo (i)',
-    tiger: 'tiger (v)'
+    red: 'red (r)',
+    orange: 'orange (o)',
+    yellow: 'yellow (y)',
+    green: 'green (g)',
+    blue: 'blue (b)',
+    indigo: 'indigo (i)',
+    violet: 'violet (v)'
   }
 end
 
