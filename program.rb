@@ -370,9 +370,9 @@ while continue
 
   puts_f [
     { command: 'c!', description: 'cast' },
-    { command: 's',  description: 'status all players' },
-    { command: 'o',  description: 'status for opponent' },
-    { command: 'm',  description: 'current player status' },
+    { command: 'a',  description: 'status all players' },
+    { command: 't',  description: 'status for opponent (them)' },
+    { command: 'u',  description: 'current player status (us)' },
     { command: 'fl', description: 'full list spells' },
     { command: 'l',  description: 'short list spells' },
     { command: 'e!', description: 'exits the game' },
@@ -382,7 +382,7 @@ while continue
 
   next_sequence = game.next_sequence_for_turn[game.current_turn]
 
-  if text == 's'
+  if text == 'a'
     table_a = left_right_table_status_for_player :a, next_sequence
     table_b = left_right_table_status_for_player :b, next_sequence
     i = 0
@@ -402,9 +402,9 @@ while continue
     end
 
     puts_f table_a_b
-  elsif text == 'o'
+  elsif text == 't'
     puts_f left_right_table_status_for_player(opponent[current_turn], next_sequence)
-  elsif text == 'm'
+  elsif text == 'u'
     puts_f left_right_table_status_for_player(me[current_turn], next_sequence)
   elsif text == 'l' || text == 'fl'
     if text == 'fl'
@@ -419,11 +419,14 @@ while continue
     while !casted
       if(mana_pool == :left)
         puts_f "What mana do you want to infuse for the LEFT spell? (roygbiv)"
-        turn[current_turn][:left] = STDIN.noecho(&:gets).chomp
+        pp next_sequence[:a][:left][:by_command]
+        turn_or_command = STDIN.noecho(&:gets).chomp
+        turn[current_turn][:left] = turn_or_command
         mana_pool = :right
       else
         puts_f "What mana do you want to infuse for the Right spell? (roygbiv)"
-        turn[current_turn][:right] = STDIN.noecho(&:gets).chomp
+        turn_or_command = STDIN.noecho(&:gets).chomp
+        turn[current_turn][:right] = turn_or_command
         casted = true
         if(current_turn == :player_1)
           current_turn = :player_2
