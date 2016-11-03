@@ -30,14 +30,18 @@ game = Game.new
 continue = true
 
 def puts_f s, color = nil
-  if s.is_a? Array
-    Formatador.display_table(s)
+  if color
+    Formatador.display_line("[#{color}]#{s}[/]")
   else
-    if color
-      Formatador.display_line("[#{color}]#{s}[/]")
-    else
-      Formatador.display_line(s)
-    end
+    Formatador.display_line(s)
+  end
+end
+
+def puts_t table, order = nil
+  if order
+    Formatador.display_table(table, order)
+  else
+    Formatador.display_table(table)
   end
 end
 
@@ -47,7 +51,7 @@ def paralysis
     :short => "v (3x)",
     :command => "violet, violet, violet",
     :description => "Forces one wizard to repeat the hand sign he performed last turn. The target depends on which mana pool executes the spell (left targets left, right targets right). Paralysis can only affect one mana pool at a time. Some hand signs will be changed to another to prevent complete impairment (blue changes to violet, yellow to green, and indigo to red).",
-    :countered_by => "Counter Spell, Reflect, Ultimate Defense"
+    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
   }
 end
 
@@ -187,7 +191,7 @@ def amnesia
     :short => "g, r, r",
     :command => "green, red, red",
     :description => "When Amnesia is cast, opponent will be forced to repeat the same signs he performed before.",
-    :countered_by => "Reflects, Counter Spell, Ultimate Defense"
+    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
   }
 end
 
@@ -197,7 +201,7 @@ def upheaval
     :short => "y, r, v",
     :command => "yellow, red, violet",
     :description => "When Upheaval is cast, opponent will have all of his sequences reset.",
-    :countered_by => "Reflects, Counter Spell, Ultimate Defense"
+    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
   }
 end
 
@@ -207,7 +211,7 @@ def silence
     :short => "y, i, g",
     :command => "yellow, indigo, green",
     :description => "Disables the opponents ability to cast blue, green, violet, yellow.",
-    :countered_by => "Reflects, CounterSpell, Ultimate Defense"
+    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
   }
 end
 
@@ -225,8 +229,8 @@ def color_to_hand_sign_map
   {
     'r' => :dragon,
     'o' => :ram,
-    'g' => :snake,
     'y' => :dog,
+    'g' => :snake,
     'b' => :ox,
     'i' => :rat,
     'v' => :tiger
@@ -237,8 +241,8 @@ def hand_sign_to_color_map
   {
     dragon: 'red (r)',
     ram: 'orange (o)',
-    snake: 'yellow (y)',
-    dog: 'green (g)',
+    dog: 'yellow (y)',
+    snake: 'green (g)',
     ox: 'blue (b)',
     rat: 'indigo (i)',
     tiger: 'tiger (v)'
@@ -349,11 +353,13 @@ def pretty_print_spells_full
 end
 
 def pretty_print_spells_short
-  spell_descriptions.each do |s|
-    t = "#{s[:name]}: #{s[:short]}"
-    t = t + " (#{s[:countered_by]})" if s[:countered_by]
-    puts_f t
-  end
+  Formatador.display_table(spell_descriptions.map do |s|
+    {
+      'name' => s[:name],
+      'input' => s[:short],
+      'countered by' => s[:countered_by]
+    }
+  end.to_a, ['name', 'input', 'countered by'])
 end
 
 current_turn = :a
@@ -368,7 +374,7 @@ while continue
     puts_f 'Player 2, enter one of the commands below:', 'cyan'
   end
 
-  puts_f [
+  puts_t [
     { command: 'c!', description: 'cast' },
     { command: 'a',  description: 'status all wizards' },
     { command: 't',  description: 'status for opponent (them)' },
@@ -401,11 +407,11 @@ while continue
       i += 1
     end
 
-    puts_f table_a_b
+    puts_t table_a_b
   elsif text == 't'
-    puts_f left_right_table_status_for_player(opponent[current_turn], next_sequence)
+    puts_t left_right_table_status_for_player(opponent[current_turn], next_sequence)
   elsif text == 'u'
-    puts_f left_right_table_status_for_player(me[current_turn], next_sequence)
+    puts_t left_right_table_status_for_player(me[current_turn], next_sequence)
   elsif text == 'l' || text == 'fl'
     if text == 'fl'
       pretty_print_spells_full
@@ -416,19 +422,52 @@ while continue
     casted = false
     mana_pool = :left
 
-    pp next_sequence[:a][:left][:by_command]
-
     while !casted
       if(mana_pool == :left)
+        command_table = [ ]
+
+        next_sequence[current_turn][mana_pool][:by_command].each do |k, v|
+          command_table << {
+            color: hand_sign_to_color_map[k],
+            'spell info' =>  v.sort_by { |s| s[:countdown] }
+                               .map { |s| "#{s[:spell]} (#{s[:countdown]})" }
+                               .join(", ")
+          }
+        end
+
+        puts_t command_table
         puts_f "What mana do you want to infuse for the LEFT spell? (roygbiv)", 'cyan'
         turn_or_command = STDIN.noecho(&:gets).chomp
-        turn[current_turn][:left] = turn_or_command
-        mana_pool = :right
+        if(color_to_hand_sign_map.keys.include? turn_or_command)
+          turn[current_turn][:left] = turn_or_command
+          mana_pool = :right
+        elsif turn_or_command == 'e!'
+          mana_pool = :left
+          break
+        end
       else
-        puts_f "What mana do you want to infuse for the Right spell? (roygbiv)", 'cyan'
+        command_table = [ ]
+
+        next_sequence[current_turn][mana_pool][:by_command].each do |k, v|
+          command_table << {
+            color: hand_sign_to_color_map[k],
+            'spell info' =>  v.sort_by { |s| s[:countdown] }
+                               .map { |s| "#{s[:spell]} (#{s[:countdown]})" }
+                               .join(", ")
+          }
+        end
+
+        puts_t command_table
+        puts_f "What mana do you want to infuse for the RIGHT spell? (roygbiv)", 'cyan'
         turn_or_command = STDIN.noecho(&:gets).chomp
-        turn[current_turn][:right] = turn_or_command
-        casted = true
+        if(color_to_hand_sign_map.keys.include? turn_or_command)
+            turn[current_turn][:right] = turn_or_command
+            casted = true
+        elsif turn_or_command == 'e!'
+          mana_pool = :left
+          break
+        end
+
         if(current_turn == :a)
           current_turn = :b
         else
@@ -444,7 +483,54 @@ while continue
 
           puts_f turn
           result = game.turn(converted_turn_a, converted_turn_b)
-          puts_f result
+          puts_f "Turn Results:", 'cyan'
+
+          table = [ ]
+
+          table << {
+            'Player' => '1',
+            'Side' => 'L',
+            'Command' => hand_sign_to_color_map[result[:a][:left][:command]],
+            'Spell' => result[:a][:left][:spell][:name],
+            'Nullified' => result[:a][:left][:spell][:nullified],
+          }
+
+          table << {
+            'Player' => '1',
+            'Side' => 'R',
+            'Command' => hand_sign_to_color_map[result[:a][:right][:command]],
+            'Spell' => result[:a][:right][:spell][:name],
+            'Nullified' => result[:a][:right][:spell][:nullified],
+          }
+
+          table << {
+            'Player' => '2',
+            'Side' => 'L',
+            'Command' => hand_sign_to_color_map[result[:b][:left][:command]],
+            'Spell' => result[:b][:left][:spell][:name],
+            'Nullified' => result[:b][:left][:spell][:nullified],
+          }
+
+          table << {
+            'Player' => '2',
+            'Side' => 'R',
+            'Command' => hand_sign_to_color_map[result[:b][:right][:command]],
+            'Spell' => result[:b][:right][:spell][:name],
+            'Nullified' => result[:b][:right][:spell][:nullified],
+          }
+
+          puts_t table, ['Player', 'Side', 'Command', 'Spell', 'Nullified']
+
+          table = [ ]
+
+          table << { key: 'Game Over?', value: game.over? }
+          table << { key: 'Winner', value: game.winner }
+          table << { key: 'Turn', value: game.current_turn }
+          table << { key: 'P1 HP', value: 15 - game.damage_for(:a) }
+          table << { key: 'P2 HP', value: 15 - game.damage_for(:b) }
+
+          puts_t table
+
           current_turn = :a
         end
       end
