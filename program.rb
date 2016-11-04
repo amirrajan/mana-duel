@@ -271,19 +271,6 @@ def class_to_display_name
   }
 end
 
-def pretty_print_spells_by_command k, v
-  puts_f hand_sign_to_color_map[k]
-
-  puts_f v.sort_by { |s| s[:countdown] }.map do |s|
-    {
-      spell: class_to_display_name[s[:spell]],
-      'turns til': s[:countdown]
-    }
-  end
-
-  puts_f ""
-end
-
 def left_right_table_status_for_player id, sequence
   number = { a: 'P1', b: 'P2' }
   table = [ ]
