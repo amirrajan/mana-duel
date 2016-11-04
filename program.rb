@@ -81,7 +81,7 @@ def missile
     :short => "g, y",
     :command => "green, yellow",
     :description => "Does one point of damage.",
-    :countered_by => "Shield, Reflect, CounterSpell, UltimateDefense"
+    :countered_by => "Reflect, Shield, Counter Spell, Ultimate Defense"
 }
 end
 
@@ -98,39 +98,39 @@ end
 def heavy_wound
 {
     :name => "HeavyWounds",
-    :short => "indigo, red, violet, yellow",
+    :short => "i, r, v, y",
     :command => "indigo, red, violet, yellow (this jutsu will take four turns to execute, a ninja needs to execute indigo, then red, then violet, then yellow)",
     :description => "Does three points of damage.",
-    :countered_by => "Reflect, CounterSpell, UltimateDefense"
+    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
 }
 end
 
 def lighting_bolt
 {
     :name => "LightningBolt",
-    :short => "yellow, violet, violet, yellow, yellow",
+    :short => "y, v, v, y, y",
     :command => "yellow, violet, violet, yellow, yellow (the last command doubles up as the first command if executed one after another)",
     :description => "Does five points of damage.",
-    :countered_by => "Reflect, CounterSpell, UltimateDefense"
+    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
 }
 end
 
 def fast_lighting_bolt
 {
     :name => "FastLightningBolt",
-    :short => "indigo, yellow, yellow, [blue, blue] (once per game)",
+    :short => "i, y, y, [b, b] (once per game)",
     :command => "indigo, yellow, yellow, [blue, blue] (both ninjas must cast the last sign for jutsu the to execute)",
-    :description => "Does five points of damage. This jutsu can only be used once per match by each team.",
-    :countered_by => "Reflect, CounterSpell, UltimateDefense"
+    :description => "Does five points of damage. This spell can only be used once per match by each wizard.",
+    :countered_by => "Reflect, Counter Spell, Ultimate Defense"
 }
 end
 
 def seppuku
 {
     :name => "Seppuku",
-    :short => "[orange, orange] or [red, red] (instant forfeit)",
-    :command => "[orange, orange] or [red, red] (if both ninjas on the team cast either orange or red, it's instant death for that team)",
-    :description => "Curse does 30 points of damage to the team that casts the jutsu. Instant death.",
+    :short => "[o, o] or [r, r] (instant forfeit)",
+    :command => "[orange, orange] or [red, red] (if both mana pools for the wizard cast either orange or red, it's instant death for that wizard)",
+    :description => "Curse does 30 points of damage to the wizard that casts the jutsu. Instant death.",
     :countered_by => nil
 }
 end
@@ -138,9 +138,9 @@ end
 def reflect
 {
     :name => "Reflect",
-    :short => "[blue, blue], [indigo, indigo]",
+    :short => "[b, b], [i, i]",
     :command => "[blue, blue], [indigo, indigo] (both ninjas must issue both commands in unison)",
-    :description => "Reflects jutsu back at opponent. Will not reflect Shock however.",
+    :description => "Reflects spell back at opponent. Will not reflect Shock however.",
     :countered_by => nil
 }
 end
@@ -148,9 +148,9 @@ end
 def counter_spell
 {
     :name => "CounterSpell",
-    :short => "indigo, red, red or indigo, indigo, green",
+    :short => "i, r, r or i, i, g",
     :command => "indigo, red, red or indigo, indigo, green",
-    :description => "Nullifies all attack jutsu except Shock or Sokushi.",
+    :description => "Nullifies all attack spells except Shock or Sokushi.",
     :countered_by => nil
 }
 end
@@ -158,9 +158,9 @@ end
 def ultimate_defense
 {
     :name => "UltimateDefense",
-    :short => "[blue, blue], yellow, red, indigo",
+    :short => "[b, b], y, r, i",
     :command => "[blue, blue], yellow, red, indigo",
-    :description => "Nullifies all attack jutsu.",
+    :description => "Nullifies all attack spells.",
     :countered_by => nil
 }
 end
@@ -168,7 +168,7 @@ end
 def sokushi
 {
     :name => "Sokushi",
-    :short => "red, indigo, red, violet, green (3x), yellow",
+    :short => "r, i, r, v, g (3x), y",
     :command => "red, indigo, red, violet, green, green, green, yellow",
     :description => "Does 100 points of damage.",
     :countered_by => "UltimateDefense"
@@ -178,7 +178,7 @@ end
 def heal
 {
     :name => "Heal",
-    :short => "yellow, violet, indigo",
+    :short => "y, v, i",
     :command => "yellow, violet, indigo",
     :description => "Removes one point of damage.",
     :countered_by => nil
@@ -188,9 +188,9 @@ end
 def amnesia
 {
     :name => "Amnesia",
-    :short => "yellow, red, red",
+    :short => "y, r, r",
     :command => "yellow, red, red",
-    :description => "When Amnesia is cast, opponent will be forced to repeat the same signs he performed before.",
+    :description => "When Amnesia is cast, opponent will be forced to repeat the same colors he performed before.",
     :countered_by => "Reflects, CounterSpell, UltimateDefense"
 }
 end
@@ -198,7 +198,7 @@ end
 def upheaval
 {
     :name => "Upheaval",
-    :short => "green, red, violet",
+    :short => "g, r, v",
     :command => "green, red, violet",
     :description => "When Upheaval is cast, opponent will have all of his sequences reset.",
     :countered_by => "Reflects, CounterSpell, UltimateDefense"
@@ -208,7 +208,7 @@ end
 def silence
 {
     :name => "Silence",
-    :short => "green, indigo, yellow",
+    :short => "g, i, y",
     :command => "green, indigo, yellow",
     :description => "Disables the opponents ability to cast blue, yellow, violet, green.",
     :countered_by => "Reflects, CounterSpell, UltimateDefense"
@@ -218,7 +218,7 @@ end
 def greater_heal
 {
     :name => "GreaterHeal",
-    :short => "yellow, violet, red, indigo",
+    :short => "y, v, r, i",
     :command => "yellow, violet, red, indigo",
     :description => "Removes two points of damage.",
     :countered_by => nil
