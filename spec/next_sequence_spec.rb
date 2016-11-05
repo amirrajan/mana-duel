@@ -20,7 +20,7 @@ describe 'spell sequence' do
 
     result[:by_spell][Shock][:command].should eq :orange
     result[:by_spell][Shock][:countdown].should eq 1
-    result[:by_command][:orange].should eq [{ spell: Shock, countdown: 1 }]
+    result[:by_command][:orange].should eq [{ spell: Shock, countdown: 1, of: 1 }]
   end
 
   specify 'shield' do
@@ -29,7 +29,7 @@ describe 'spell sequence' do
 
     result[:by_spell][Shield][:command].should eq :red
     result[:by_spell][Shield][:countdown].should eq 1
-    result[:by_command][:red].should eq [{ spell: Shield, countdown: 1 }]
+    result[:by_command][:red].should eq [{ spell: Shield, countdown: 1, of: 1 }]
   end
 
   specify 'missile' do
@@ -118,7 +118,7 @@ describe 'spell sequence' do
     result[:by_spell][CounterSpell][:alternate_countdown].should eq 2
 
     result[:by_command][:red].should eq [
-      { spell: CounterSpell, countdown: 2 }
+      { spell: CounterSpell, countdown: 2, of: 3 }
     ]
 
     result[:by_command][:indigo].should eq [
@@ -137,7 +137,7 @@ describe 'spell sequence' do
     result[:by_spell][CounterSpell][:alternate_countdown].should eq 3
 
     result[:by_command][:indigo].should eq [
-      { spell: CounterSpell, countdown: 3 }
+      { spell: CounterSpell, countdown: 3, of: 3 }
     ]
   end
 
@@ -167,8 +167,8 @@ describe 'spell sequence' do
                                [HeavyWounds.new, Shield.new])
 
     result[:by_command][:red].should eq [
-      { spell: HeavyWounds, countdown: 3 },
-      { spell: Shield, countdown: 1 }
+      { spell: HeavyWounds, countdown: 3, of: 4 },
+      { spell: Shield, countdown: 1, of: 1 }
     ]
 
     result[:by_command][:indigo].should eq [ { spell: HeavyWounds, countdown: 4 } ]

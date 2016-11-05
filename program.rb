@@ -280,8 +280,7 @@ def left_right_table_status_for_player id, sequence
            .each do |k, v|
     table << {
       "#{number[id]}, L Spell" => class_to_display_name[k],
-      "#{number[id]}, L Time" => v[:countdown]
-    }
+      "#{number[id]}, L Time" => "#{v[:countdown]} of #{v[:of]}"}
   end
 
   i = 0
@@ -349,6 +348,21 @@ def pretty_print_spells_short
   end.to_a, ['name', 'input', 'countered by'])
 end
 
+def pretty_print_by_command by_command
+  command_table = [ ]
+
+  by_command.each do |k, v|
+    command_table << {
+      color: hand_sign_to_color_map[k],
+      'spell info' =>  v.sort_by { |s| s[:countdown] }
+                         .map { |s| "#{s[:spell]} (#{s[:countdown]})" }
+                         .join(", ")
+    }
+  end
+
+  puts_t command_table
+end
+
 current_turn = :a
 turn = { a: { }, b: { } }
 me = { a: :a, b: :b }
@@ -411,18 +425,7 @@ while continue
 
     while !casted
       if(mana_pool == :left)
-        command_table = [ ]
-
-        next_sequence[current_turn][mana_pool][:by_command].each do |k, v|
-          command_table << {
-            color: hand_sign_to_color_map[k],
-            'spell info' =>  v.sort_by { |s| s[:countdown] }
-                               .map { |s| "#{s[:spell]} (#{s[:countdown]})" }
-                               .join(", ")
-          }
-        end
-
-        puts_t command_table
+        pretty_print_by_command(next_sequence[current_turn][mana_pool][:by_command])
         puts_f "What mana do you want to infuse for the LEFT spell? (roygbiv)", 'cyan'
         turn_or_command = STDIN.noecho(&:gets).chomp
         if(color_to_hand_sign_map.keys.include? turn_or_command)
@@ -433,18 +436,7 @@ while continue
           break
         end
       else
-        command_table = [ ]
-
-        next_sequence[current_turn][mana_pool][:by_command].each do |k, v|
-          command_table << {
-            color: hand_sign_to_color_map[k],
-            'spell info' =>  v.sort_by { |s| s[:countdown] }
-                               .map { |s| "#{s[:spell]} (#{s[:countdown]})" }
-                               .join(", ")
-          }
-        end
-
-        puts_t command_table
+        pretty_print_by_command(next_sequence[current_turn][mana_pool][:by_command])
         puts_f "What mana do you want to infuse for the RIGHT spell? (roygbiv)", 'cyan'
         turn_or_command = STDIN.noecho(&:gets).chomp
         if(color_to_hand_sign_map.keys.include? turn_or_command)

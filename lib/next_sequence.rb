@@ -55,6 +55,7 @@ class NextSequence
       entry = {}
       entry[:spell] = key
       entry[:countdown] = by_spell[key][:countdown]
+      entry[:of] = key.new.sequence.count
 
       by_command[by_spell[key][:command]] << entry
 
