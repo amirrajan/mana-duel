@@ -288,7 +288,7 @@ def left_right_table_status_for_player id, sequence
            .sort_by { |k, v| v[:countdown] }
            .each do |k, v|
     table[i]["#{number[id]}, R Spell"] = class_to_display_name[k]
-    table[i]["#{number[id]}, R Time"] = v[:countdown]
+    table[i]["#{number[id]}, R Time"] =  "#{v[:countdown]} of #{v[:of]}"
     i += 1
   end
 
@@ -355,7 +355,7 @@ def pretty_print_by_command by_command
     command_table << {
       color: hand_sign_to_color_map[k],
       'spell info' =>  v.sort_by { |s| s[:countdown] }
-                         .map { |s| "#{s[:spell]} (#{s[:countdown]})" }
+                         .map { |s| "#{s[:spell]} (#{s[:countdown]} of #{s[:of]})" }
                          .join(", ")
     }
   end
